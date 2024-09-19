@@ -4,7 +4,8 @@ Created on Sun Nov 12 19:04:26 2023
 
 @author: me
 """
-'''
+import numpy as np
+"""
 #import pythoncom  # This is required for COM initialization
 from pptx import Presentation
 
@@ -108,5 +109,5 @@ def save_slide_as_image(ppt_path, slide_number, output_path):
                         powerpoint.Quit()
                 finally:
                     pythoncom.CoUninitialize()  # Uninitialize COM library
-'''
+"""
 

@@ -4,10 +4,7 @@ Created on Wed Sep 11 22:05:26 2024
 
 @author: me
 """
-from ppt_func_HTHP import update_text_while_preserving_formatting, save_slide_as_image, replace_specific_text
-from pptx import Presentation
-from io import BytesIO
-import os
+
 import streamlit as st
 import numpy as np
 import CoolProp.CoolProp as CP
@@ -16,9 +13,7 @@ from tabulate import tabulate
 from scipy.optimize import fsolve
 import warnings
 import pandas as pd
-import win32com.client
-from PIL import Image
-import pythoncom  # This is required for COM initialization
+
 
 # These must be placed in the same directory as Streamlit app
 from HTHP_Source import calculate_heat_pump_performance_source
