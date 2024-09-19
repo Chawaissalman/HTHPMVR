@@ -7,7 +7,5 @@ matplotlib
 coolprop
 scipy
 pillow
-pywin32
 tabulate
 pdf2image
-pypiwin32
