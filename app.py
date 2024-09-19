@@ -135,7 +135,7 @@ with col1:
 with col2:
     Sink_T_inlet = st.number_input("Sink Inlet Temperature (°C)", value=sink_inlet_temp,
                                    help="Default value is 90°C. You can change this value, but don't leave it blank or set it to 0.")
-    Sink_P_inlet = st.number_input("Sink Inlet Pressure (bar)", value=8.0,
+    Sink_P_inlet = st.number_input("Sink Inlet Pressure (bar)", value=8.0, min_value = 1.0,
                                    help="Default value is 8 bar. You can change this value, but don't leave it blank or set it to 0.")
     Sink_P_outlet = st.number_input("Sink Outlet Pressure (bar)", value=sink_outlet_pressure,
                                     help="Currently we don't support pressure higher than 61 bar")
