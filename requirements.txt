@@ -1,0 +1,13 @@
+streamlit
+python-pptx
+numpy
+pandas
+openpyxl
+matplotlib
+coolprop
+scipy
+pillow
+pywin32
+tabulate
+pdf2image
+pypiwin32
