@@ -4,7 +4,8 @@ Created on Sun Nov 12 19:04:26 2023
 
 @author: me
 """
-import pythoncom  # This is required for COM initialization
+'''
+#import pythoncom  # This is required for COM initialization
 from pptx import Presentation
 
 def print_shape_info(ppt_file_path):
@@ -60,8 +61,7 @@ def update_text_while_preserving_formatting(ppt_file_path, updates):
     return updated_ppt_path
 
 
-from pptx import Presentation
-
+#from pptx import Presentation
 def replace_specific_text(ppt_file_path, updates):
     ppt = Presentation(ppt_file_path)
 
@@ -90,7 +90,7 @@ from io import BytesIO
 from pdf2image import convert_from_path
 import tempfile
 
-import win32com.client
+#import win32com.client
 
 def save_slide_as_image(ppt_path, slide_number, output_path):
                 try:
@@ -108,5 +108,5 @@ def save_slide_as_image(ppt_path, slide_number, output_path):
                         powerpoint.Quit()
                 finally:
                     pythoncom.CoUninitialize()  # Uninitialize COM library
-
+'''
 
