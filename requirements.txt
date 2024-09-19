@@ -1,5 +1,4 @@
 streamlit
-python-pptx
 numpy
 pandas
 openpyxl
@@ -8,5 +7,3 @@ coolprop
 scipy
 pillow
 tabulate
-pdf2image
-pythoncom
