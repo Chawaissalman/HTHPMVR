@@ -510,5 +510,174 @@ if st.sidebar.button("Calculate"):
             if key not in group1 and key not in group2:
                 st.write(f"{key}: {value}")
 
+        '''
+        ppt HP only
+        '''
+        #Here add values for source
+        HT_in_source = round(results['heat source'],0)
+        T_in_source = int(round(results['source in T'],0))
+        T_out_source = int(round(results['source out T'],0))
+        m_in_source = round(results['mass flow source'],0)
+        #HT_in_source = m_in_source * 4.184*(T_out_source-T_in_source)
+
+        #Here add values for sink
+        HT_out_sink = round(results['Sink Power (MW)'],0)
+        T_in_sink = int(round(results['sink in T'],0))
+        T_out_sink = int(round(results['sink out T'],0))
+        m_in_sink = int(round(results['Mass Flowrate of Steam (kg/s)'],0))
+
+        #COP values
+        COP = round(results['COP'],2)
+        Req_power = round(results['Total Electric Power (MW)'],1)
+
+        # MVR
+        Final_heat = results.get('heat sink total')
+
+        if Sink_P_outlet <= 3.7:
+            
+
+
+            # Define the updates to be made
+            updates = [
+                {'slide_number': 0, 'shape_number': 5, 'new_text': f'Heat input: {HT_in_source} MWth\nCooling from {T_in_source} ˚C → {T_out_source} ˚C\nMass flow ~ {m_in_source} kg/s'},
+                {'slide_number': 0, 'shape_number': 7, 'new_text': f'Heat output: {HT_out_sink} MWth \nWater {T_in_sink} °C → {T_out_sink} °C steam\nMass flow ~ {m_in_sink} kg/s'},
+                {'slide_number': 0, 'shape_number': 10, 'new_text': f'COP: {COP} (Gross)\nRequired electric power: ~ {Req_power} MWel (incl. HP auxiliaries)\nRefrigerant: R1233ZD(E) '},
+                {'slide_number': 0, 'shape_number': 18, 'new_text': f'{T_out_source} °C, Water'},
+                {'slide_number': 0, 'shape_number': 31, 'new_text': f'{T_in_sink} °C, Water'},
+                {'slide_number': 0, 'shape_number': 32, 'new_text': f'{T_out_sink} °C, Water'},
+                {'slide_number': 0, 'shape_number': 33, 'new_text': f'{T_in_source} °C, Water'}
+                # ... add more updates as needed for other text boxes
+            ]
+
+            # Path to the PowerPoint file
+            ppt_path = r'HTHP_HP_only.pptx'
+
+            # Update the text boxes in the PowerPoint file while preserving formatting
+            updated_ppt_path = update_text_while_preserving_formatting(ppt_path, updates)
+
+            # Print the path of the updated file
+            st.info(f"Updated PowerPoint file saved at: {updated_ppt_path}")
+
+            # Assuming your Streamlit app and PowerPoint file are in the same directory
+            current_directory = os.path.dirname(__file__)
+            ppt_path = os.path.join(current_directory, 'HTHP_HP_only_updated.pptx')
+            output_image_path = os.path.join(current_directory, 'slide_1.png')
+
+            # Save the slide as an image
+            save_slide_as_image(ppt_path, 1, output_image_path)
+
+            # Load and display the image in Streamlit
+            if os.path.exists(output_image_path):
+                image = Image.open(output_image_path)
+                st.image(image, caption="Slide 1 Preview", use_column_width=True)
+            else:
+                st.error("Failed to generate slide image.")
+            
+            def update_pptx_file(ppt_path, updates):
+                prs = Presentation(ppt_path)
+                
+                
+                # Save the updated presentation to a BytesIO object
+                updated_ppt_buffer = BytesIO()
+                prs.save(updated_ppt_buffer)
+                updated_ppt_buffer.seek(0)
+                
+                return updated_ppt_buffer
+            
+            
+            
+            updated_ppt_buffer = update_pptx_file(ppt_path, updates)
+
+           
+            st.download_button(
+                    label="Download Updated PowerPoint",
+                    data=updated_ppt_buffer,
+                    file_name="updated_presentation.pptx",
+                    mime="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                )
+        elif Sink_P_outlet > 3.7:
+            steam_P = Sink_P_outlet
+            steam_T = Sink_T_outlet
+            msource = m_in_source * 3.6 #tph
+
+            msink = m_in_sink* 3.6 # tph
+
+            COP_gross = results.get('COP_gross')
+            Total_power = results.get('total power hthp plus MVR')
+
+            updates_MVR = [
+                {'slide_number': 0, 'shape_number': 39, 'new_text': f'{steam_T}'},
+                {'slide_number': 0, 'shape_number': 40, 'new_text': f'{T_in_sink}'},
+                {'slide_number': 0, 'shape_number': 41, 'new_text': f'{Total_power:.1f}'},
+
+                {'slide_number': 0, 'shape_number': 42, 'new_text': f'{T_out_source}'},
+
+                {'slide_number': 0, 'shape_number': 46, 'new_text': f'{T_in_source}'},
+
+                {'slide_number': 0, 'shape_number': 47, 'new_text': f'{HT_in_source}'},
+                {'slide_number': 0, 'shape_number': 49, 'new_text': f'Source: water at {T_in_source} °C'},
+                {'slide_number': 0, 'shape_number': 50, 'new_text': f'Sink: steam at {steam_P} bar and {steam_T} °C'},
+                {'slide_number': 0, 'shape_number': 51, 'new_text': f'{steam_P}'},
+                {'slide_number': 0, 'shape_number': 52, 'new_text': f'{Final_heat:.1f}'},
+                {'slide_number': 0, 'shape_number': 53, 'new_text': f'{msink}'},
+                {'slide_number': 0, 'shape_number': 54, 'new_text': f'{msource}'},
+                {'slide_number': 0, 'shape_number': 55, 'new_text': f'{COP_gross:.1f}'},
+                {'slide_number': 0, 'shape_number': 56, 'new_text': f'{steam_P}'},
+
+
+                # {'slide_number': 0, 'shape_number': 18, 'new_text': f'{T_out_source} °C, Water'},
+                # {'slide_number': 0, 'shape_number': 31, 'new_text': f'{T_in_sink} °C, Water'},
+                # {'slide_number': 0, 'shape_number': 32, 'new_text': f'{T_out_sink} °C, Water'},
+                # {'slide_number': 0, 'shape_number': 33, 'new_text': f'{T_in_source} °C, Water'}
+                # ... add more updates as needed for other text boxes
+            ]
+
+
+            # Path to the PowerPoint file
+            ppt_path_MVR= r'HTHP_HP+MMVR.pptx'
+
+            # Update the text boxes in the PowerPoint file while preserving formatting
+            updated_ppt_path = replace_specific_text(ppt_path_MVR, updates_MVR)
+
+            # Print the path of the updated file
+            st.info(f"Updated PowerPoint file saved at: {updated_ppt_path}")
+
+             # Assuming your Streamlit app and PowerPoint file are in the same directory
+            current_directory = os.path.dirname(__file__)
+            ppt_path = os.path.join(current_directory, 'HTHP_HP+MMVR_replaced.pptx')
+            output_image_path = os.path.join(current_directory, 'slide_2.png')
+
+            # Save the slide as an image
+            save_slide_as_image(ppt_path, 1, output_image_path)
+
+            # Load and display the image in Streamlit
+            if os.path.exists(output_image_path):
+                image = Image.open(output_image_path)
+                st.image(image, caption="Slide 1 Preview", use_column_width=True)
+            else:
+                st.error("Failed to generate slide image.")
+            
+            def update_pptx_file(ppt_path, updates):
+                prs = Presentation(ppt_path)
+                
+                
+                # Save the updated presentation to a BytesIO object
+                updated_ppt_buffer = BytesIO()
+                prs.save(updated_ppt_buffer)
+                updated_ppt_buffer.seek(0)
+                
+                return updated_ppt_buffer
+            
+            
+            
+            updated_ppt_buffer = update_pptx_file(ppt_path, updates_MVR)
+
+           
+            st.download_button(
+                    label="Download Updated PowerPoint",
+                    data=updated_ppt_buffer,
+                    file_name="updated_presentation.pptx",
+                    mime="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                )
     else:
         st.warning("No results were generated. Please check your inputs and try again.")
