@@ -451,3 +451,14 @@ def validate_min_sink_t_outlet(Sink_T_outlet, Sink_P_outlet, config_value):
     # Return validated or unchanged values for further use
     return Sink_T_outlet
 
+'----------------------------------------------------------------------------------'
+
+def check_coolprop_pressure_error(fluid, pressure, temperature):
+    try:
+        # Attempt to calculate a property using CoolProp at the given pressure and temperature
+        # Here, we use density as an example, but you can use other properties if needed
+        density = CP.PropsSI('D', 'P', pressure * 1e5, 'T', temperature + 273.15, fluid)
+        return False  # No error occurred
+    except Exception as e:
+        st.error(f"CoolProp Error: Failed to calculate properties at {pressure} bar and {temperature}°C. {str(e)}")
+        return True  # An error occurred

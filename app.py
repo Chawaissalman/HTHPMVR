@@ -19,7 +19,7 @@ import pandas as pd
 from HTHP_Source import calculate_heat_pump_performance_source
 from HTHP_Sink import calculate_heat_pump_performance_sink
 from check_inputs import check_inputs_source, check_inputs_sink, calculate_heat_sink,validate_source_inlet_phase, validate_sink_vapor_phase, validate_sink_temperature_pressure, check_and_return_min_heat_sink, check_and_return_min_mass_flow
-from check_inputs import validate_sink_t_outlet, validate_min_sink_t_outlet
+from check_inputs import validate_sink_t_outlet, validate_min_sink_t_outlet, check_coolprop_pressure_error
 from warnings_function import validate_and_warn, check_negative_values, warn_for_combination
 import constants
 from MVR_function import MVR
@@ -202,7 +202,14 @@ if st.sidebar.button("Calculate"):
     validate_source_inlet_phase(source_inlet_temp, source_inlet_pressure)
     validate_sink_vapor_phase(Sink_T_outlet, Sink_P_outlet)
     validate_sink_temperature_pressure(Sink_T_inlet, Sink_P_inlet, Sink_T_outlet, Sink_P_outlet)
-        
+    if check_coolprop_pressure_error('Water', source_inlet_pressure, source_inlet_temp):
+        st.error('pressure is too high for source inlet')
+        st.stop()  # Stop further execution if there's an error   
+    
+    if check_coolprop_pressure_error('Water', Sink_T_inlet, sink_inlet_temp):
+        st.error('pressure is too high for sink inlet')
+        st.stop()  # Stop further execution if there's an error
+
     if heat_sink == 0 and mass_sink == 0 and mass_flow_source == 0 and heat_source == 0:
         st.error("Please provide at least one non-zero value for mass_flow_source, heat_source, heat_sink, or mass_sink.")
         st.stop()
