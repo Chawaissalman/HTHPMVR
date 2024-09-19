@@ -9,3 +9,4 @@ scipy
 pillow
 tabulate
 pdf2image
+pythoncom
