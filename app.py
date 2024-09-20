@@ -421,14 +421,21 @@ if st.session_state['otp_verified']:
                 
                 if Sink_T_outlet > results_MVR['stage_temps'][-1]:
                     st.warning(f"Warning: Sink_T_outlet ({Sink_T_outlet}°C) was not achieved with this pressure. The max achieved temperature is {results_MVR['stage_temps'][-1]:.2f}°C. Please increase the pressure.")
-
-
+                heat_sink_hthp_mvr = (results_MVR.get('output_enthalpy_mw') - results_MVR.get('condensate_enthalpy_mw'))
+                Total_power = results_HTHP.get('Total Electric Power (MW)') + results_MVR.get('total_power_mw')
                 COP_gross = (results_MVR.get('output_enthalpy_mw') - results_MVR.get('condensate_enthalpy_mw')) / (results_HTHP.get('Total Electric Power (MW)') + results_MVR.get('total_power_mw'))
+                
+                if Sink_T_outlet > results_MVR['stage_temps'][-1]:
+                    st.warning(f"Warning: Sink_T_outlet ({Sink_T_outlet}°C) was not achieved with this pressure. The max achieved temperature is {results_MVR['stage_temps'][-1]:.2f}°C. Please increase the pressure.")
 
                 results = {}
                 results.update(results_HTHP)
                 results.update(results_MVR)
+                results['heat sink total'] = heat_sink_hthp_mvr
                 results['COP_gross'] = COP_gross
+                results['total power hthp plus MVR'] = Total_power
+                st.success('calculations completed successfully')
+                st.info(f"Final COP_gross: {COP_gross:.2f}")
         
 
         elif mass_flow_source == 0 and heat_source == 0 and (heat_sink > 0 or mass_sink > 0):
