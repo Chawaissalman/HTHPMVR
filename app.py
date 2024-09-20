@@ -194,7 +194,7 @@ if st.session_state['otp_verified']:
         source_outlet_temp = st.number_input("Source Outlet Temperature (°C)", value=source_outlet_temp,
                                             help="Solution is not feasible below 25 °C. If you leave it blank, the default value of 25 °C will be used.")
         source_inlet_pressure = st.number_input("Source Inlet Pressure (bar)", min_value = 1.0, value=6.0,
-        #                                        help="Default value is 6 bar. You can change this value, but don't leave it blank or set it to 0.")
+                                                help="Default value is 6 bar. You can change this value, but don't leave it blank or set it to 0.")
         #source_outlet_pressure = st.number_input("Source Outlet Pressure (bar)", min_value = 1.0, value=3.0)
         mass_flow_source = st.number_input("Mass Flow Source (kg/s)", value=m_source)
         heat_source = st.number_input("Heat Source (MW)", value=q_source)  # Displaying extracted Q_sink as heat_source for user to override
