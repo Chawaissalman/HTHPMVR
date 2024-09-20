@@ -214,12 +214,12 @@ if st.session_state['otp_verified']:
         mass_sink = st.number_input("m sink (kg/s)", value=m_sink)
 
     # Advanced parameters
-    #st.sidebar.header("Advanced Parameters")
+    st.sidebar.header("Advanced Parameters")
     #evaporator_temp_diff = st.sidebar.number_input("Evaporator Temperature Difference", value=3)
     #eff_isentropic = st.sidebar.number_input("Isentropic Efficiency", value=0.8)
     #eff_isentropic_c2 = st.sidebar.number_input("Isentropic Efficiency C2", value=0.8)
     #comp2_press_factor = st.sidebar.number_input("Comp2 Press Factor", value=0.995)
-    #eff_mech = st.sidebar.number_input("Mechanical Efficiency", value=0.95)
+    eff_mech = st.sidebar.number_input("Mechanical Efficiency", value=0.95)
 
     source_outlet_pressure = 4.5
     Sink_P_inlet = 8
@@ -228,7 +228,7 @@ if st.session_state['otp_verified']:
     eff_isentropic = 0.8
     eff_isentropic_c2 = 0.8
     comp2_press_factor = 0.995
-    eff_mech = 0.97
+    #eff_mech = 0.95
 
     # Warnings and validations
 
