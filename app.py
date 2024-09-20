@@ -204,11 +204,12 @@ if st.session_state['otp_verified']:
                                     help="Default value is 90°C. You can change this value, but don't leave it blank or set it to 0.")
         #Sink_P_inlet = st.number_input("Sink Inlet Pressure (bar)", value=8.0, min_value = 1.0,
         #                            help="Default value is 8 bar. You can change this value, but don't leave it blank or set it to 0.")
-        Sink_P_outlet = st.number_input("Sink Outlet Pressure (bar)", value=sink_outlet_pressure,
-                                        help="Currently we don't support pressure higher than 61 bar")
         Sink_T_outlet = st.number_input("Sink Outlet Temperature (°C)", value=sink_outlet_temp,
                                         help="Currently, we don't support temperatures higher than 330°C.")
+        Sink_P_outlet = st.number_input("Sink Outlet Pressure (bar)", value=sink_outlet_pressure,
+                                        help="Currently we don't support pressure higher than 61 bar")
         
+        st.sidebar.header("add one of below four values")
         heat_sink = st.number_input("Heat Sink (MW)", value=q_sink,
                                     help="Our solution is not feasible for heat sinks lower than 15 MW.")
         mass_sink = st.number_input("Mass Sink (kg/s)", value=m_sink)
