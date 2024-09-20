@@ -196,8 +196,8 @@ if st.session_state['otp_verified']:
         source_inlet_pressure = st.number_input("Source Inlet Pressure (bar)", min_value = 1.0, value=6.0,
                                                 help="Default value is 6 bar. You can change this value, but don't leave it blank or set it to 0.")
         #source_outlet_pressure = st.number_input("Source Outlet Pressure (bar)", min_value = 1.0, value=3.0)
-        mass_flow_source = st.number_input("Mass Flow Source (kg/s)", value=m_source)
-        heat_source = st.number_input("Heat Source (MW)", value=q_source)  # Displaying extracted Q_sink as heat_source for user to override
+        mass_flow_source = st.number_input("m source (kg/s)", value=m_source)
+        heat_source = st.number_input("Q source (MWth)", value=q_source)  # Displaying extracted Q_sink as heat_source for user to override
 
     with col2:
         Sink_T_inlet = st.number_input("Sink Inlet Temperature (°C)", value=sink_inlet_temp,
@@ -209,10 +209,9 @@ if st.session_state['otp_verified']:
         Sink_P_outlet = st.number_input("Sink Outlet Pressure (bar)", value=sink_outlet_pressure,
                                         help="Currently we don't support pressure higher than 61 bar")
         
-        st.sidebar.header("add one of below four values")
-        heat_sink = st.number_input("Heat Sink (MW)", value=q_sink,
+        heat_sink = st.number_input("Q sink (MWth)", value=q_sink,
                                     help="Our solution is not feasible for heat sinks lower than 15 MW.")
-        mass_sink = st.number_input("Mass Sink (kg/s)", value=m_sink)
+        mass_sink = st.number_input("m sink (kg/s)", value=m_sink)
 
     # Advanced parameters
     #st.sidebar.header("Advanced Parameters")
