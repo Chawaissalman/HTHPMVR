@@ -7,3 +7,6 @@ coolprop
 scipy
 pillow
 tabulate
+email.mime.text
+random
+smtplib
