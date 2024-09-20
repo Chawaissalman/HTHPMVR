@@ -194,16 +194,16 @@ if st.session_state['otp_verified']:
         source_outlet_temp = st.number_input("Source Outlet Temperature (°C)", value=source_outlet_temp,
                                             help="Solution is not feasible below 25 °C. If you leave it blank, the default value of 25 °C will be used.")
         source_inlet_pressure = st.number_input("Source Inlet Pressure (bar)", min_value = 1.0, value=6.0,
-                                                help="Default value is 6 bar. You can change this value, but don't leave it blank or set it to 0.")
-        source_outlet_pressure = st.number_input("Source Outlet Pressure (bar)", min_value = 1.0, value=3.0)
+        #                                        help="Default value is 6 bar. You can change this value, but don't leave it blank or set it to 0.")
+        #source_outlet_pressure = st.number_input("Source Outlet Pressure (bar)", min_value = 1.0, value=3.0)
         mass_flow_source = st.number_input("Mass Flow Source (kg/s)", value=m_source)
         heat_source = st.number_input("Heat Source (MW)", value=q_source)  # Displaying extracted Q_sink as heat_source for user to override
 
     with col2:
         Sink_T_inlet = st.number_input("Sink Inlet Temperature (°C)", value=sink_inlet_temp,
                                     help="Default value is 90°C. You can change this value, but don't leave it blank or set it to 0.")
-        Sink_P_inlet = st.number_input("Sink Inlet Pressure (bar)", value=8.0, min_value = 1.0,
-                                    help="Default value is 8 bar. You can change this value, but don't leave it blank or set it to 0.")
+        #Sink_P_inlet = st.number_input("Sink Inlet Pressure (bar)", value=8.0, min_value = 1.0,
+        #                            help="Default value is 8 bar. You can change this value, but don't leave it blank or set it to 0.")
         Sink_P_outlet = st.number_input("Sink Outlet Pressure (bar)", value=sink_outlet_pressure,
                                         help="Currently we don't support pressure higher than 61 bar")
         Sink_T_outlet = st.number_input("Sink Outlet Temperature (°C)", value=sink_outlet_temp,
@@ -220,6 +220,9 @@ if st.session_state['otp_verified']:
     #eff_isentropic_c2 = st.sidebar.number_input("Isentropic Efficiency C2", value=0.8)
     #comp2_press_factor = st.sidebar.number_input("Comp2 Press Factor", value=0.995)
     #eff_mech = st.sidebar.number_input("Mechanical Efficiency", value=0.95)
+
+    source_outlet_pressure = 4.5
+    Sink_P_inlet = 8
 
     evaporator_temp_diff = 3
     eff_isentropic = 0.8
