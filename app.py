@@ -28,15 +28,14 @@ from email.mime.text import MIMEText
 import random
 import smtplib
 
-
 # Email domain restriction
 ALLOWED_DOMAIN = st.secrets["domain"]
 
 # Email details
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
-SENDER_EMAIL = st.secrets["email"] # Replace with your email
-SENDER_PASSWORD = st.secrets["password"] # Replace with your App email = st.secrets["email"]
+SENDER_EMAIL = st.secrets["email"]
+SENDER_PASSWORD = st.secrets["password"]
 
 # Initialize session state for OTP and access control
 if 'otp_verified' not in st.session_state:
@@ -62,7 +61,7 @@ def send_otp(email, otp):
             server.starttls()
             server.login(SENDER_EMAIL, SENDER_PASSWORD)
             server.sendmail(SENDER_EMAIL, email, msg.as_string())
-        st.success(f"OTP has been sent to {email}. Please check your inbox.")
+        st.success(f"OTP has been sent to {email}. Please check your inbox or junk folder.")
     except Exception as e:
         st.error(f"Error sending email: {e}")
 
@@ -72,21 +71,23 @@ if not st.session_state['otp_verified']:
 
     # Check if the email matches the allowed domain
     if email and not email.endswith(f"@{ALLOWED_DOMAIN}"):
-        st.error(f"Only allowed domain email addresses are allowed. your email address domain is not allowed to access this app")
-    else:
-        if email:
-            if not st.session_state['otp_sent']:
-                st.session_state['generated_otp'] = generate_otp()
-                send_otp(email, st.session_state['generated_otp'])
-                st.session_state['otp_sent'] = True
+        st.error(f"Only email addresses from the domain '{ALLOWED_DOMAIN}' are allowed.")
+    elif email:
+        if not st.session_state['otp_sent']:
+            st.session_state['generated_otp'] = generate_otp()
+            send_otp(email, st.session_state['generated_otp'])
+            st.session_state['otp_sent'] = True
 
-            user_otp = st.text_input("Enter the OTP sent to your email:", type="password")
-            if st.button("Validate OTP"):
-                if user_otp == str(st.session_state['generated_otp']):
-                    st.success("OTP verified successfully. Access Granted!")
-                    st.session_state['otp_verified'] = True
-                else:
-                    st.error("Invalid OTP. Please try again.")
+        user_otp = st.text_input("Enter the OTP sent to your email:", type="password")
+        if st.button("Validate OTP"):
+            if user_otp == str(st.session_state['generated_otp']):
+                st.success("OTP verified successfully. Access Granted!")
+                st.session_state['otp_verified'] = True
+                # Clear the OTP-related session state
+                del st.session_state['generated_otp']
+                del st.session_state['otp_sent']
+            else:
+                st.error("Invalid OTP. Please try again.")
 
 # Step 2: Display main content only if OTP is verified
 if st.session_state['otp_verified']:
