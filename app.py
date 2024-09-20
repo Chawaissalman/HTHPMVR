@@ -587,7 +587,8 @@ if st.session_state['otp_verified']:
             st.subheader("Additional Results")
             for key, value in results.items():
                 if key not in group1 and key not in group2:
-                    st.write(f"{key}: {value:.2f}")
+                    #st.write(f"{key}: {value:.2f}")
+                    st.write(label=key, value=f"{value:.2f}")
 
         else:
             st.warning("No results were generated. Please check your inputs and try again.")
