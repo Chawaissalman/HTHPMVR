@@ -71,7 +71,7 @@ if not st.session_state['otp_verified']:
 
     # Check if the email matches the allowed domain
     if email and not email.endswith(f"@{ALLOWED_DOMAIN}"):
-        st.error(f"Only email addresses from the domain '{ALLOWED_DOMAIN}' are allowed.")
+        st.error(f"This domain is not allowed to access this app, please put the email with allowed domain.")
     elif email:
         if not st.session_state['otp_sent']:
             st.session_state['generated_otp'] = generate_otp()
