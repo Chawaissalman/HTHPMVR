@@ -264,7 +264,7 @@ if st.session_state['otp_verified']:
             st.stop()
         
         # Check if source_outlet_temp is at least 5 degrees lower than source_inlet_temp
-        if source_outlet_temp >= source_inlet_temp - 5:
+        if source_outlet_temp >= source_inlet_temp - 4:
             st.error(f"Error: Source outlet temperature ({source_outlet_temp}°C) must be at least 5°C lower than the source inlet temperature ({source_inlet_temp}°C).")
             st.stop()
             
