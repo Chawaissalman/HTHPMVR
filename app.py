@@ -228,7 +228,7 @@ if st.session_state['otp_verified']:
     eff_isentropic = 0.8
     eff_isentropic_c2 = 0.8
     comp2_press_factor = 0.995
-    eff_mech = 0.95
+    eff_mech = 0.97
 
     # Warnings and validations
 
