@@ -198,6 +198,7 @@ if st.session_state['otp_verified']:
         #source_outlet_pressure = st.number_input("Source Outlet Pressure (bar)", min_value = 1.0, value=3.0)
         mass_flow_source = st.number_input("m source (kg/s)", value=m_source)
         heat_source = st.number_input("Q source (MWth)", value=q_source)  # Displaying extracted Q_sink as heat_source for user to override
+        st.caption("Note: A value of 0 means the value is not provided, and it will be calculated based on the other inputs.")
 
     with col2:
         Sink_T_inlet = st.number_input("Sink Inlet Temperature (°C)", value=sink_inlet_temp,
