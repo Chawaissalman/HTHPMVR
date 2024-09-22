@@ -224,6 +224,7 @@ def validate_source_inlet_phase(source_inlet_temp, source_inlet_pressure):
     # If the source inlet temperature is higher than or equal to the saturation temperature, it's vapor
     if source_inlet_temp >= T_sat_vapor:
         st.error(f"Error: Source inlet temperature ({source_inlet_temp}°C) at pressure ({source_inlet_pressure} bar) corresponds to vapor, not liquid.")
+        st.error("Please use MVR only option or reduce inlet temprature of source or increase source inlet pressure")
         st.stop()
 
 '--------------------------------------------------------------------------'
