@@ -159,6 +159,14 @@ if st.session_state['otp_verified']:
             source_outlet_temp = float(source_outlet_temp) if not pd.isna(source_outlet_temp) else constants.default_values['source_outlet_temp']
             q_source = float(q_source) if not pd.isna(q_source) else constants.default_values['q_source']
             m_source = float(m_source) if not pd.isna(m_source) else constants.default_values['m_source']
+
+            raise ValueError("Worksheet named 'HP Questionnaire_eng' not found")
+
+        except ValueError as e:
+            if "Worksheet named 'HP Questionnaire_eng' not found" in str(e):
+                st.error("Error: Worksheet named 'HP Questionnaire_eng' not found.")
+            else:
+                st.error(f"An unexpected error occurred: {e}")
             
         except Exception as e:
             st.error(f"Error reading the Excel file: {e}")
