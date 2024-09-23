@@ -121,22 +121,24 @@ if st.session_state['otp_verified']:
     uploaded_file = st.file_uploader("Upload an Excel file for inputs", type="xlsx")
 
     # Extract data from Excel if uploaded
-    if uploaded_file:
-        df = pd.read_excel(uploaded_file, sheet_name='HP Questionnaire_eng', header=None)
-        st.write("Data from the Excel file:")
-        # Filter the relevant rows (6 to 19) and the relevant columns (Symbol and Value)
-        filtered_df = df.iloc[6:21, [3, 5, 6]]  # 6:20 selects rows, [3, 5, 6] selects "Symbol", "Value", and "Unit" columns
+    try:
+            
+        if uploaded_file:
+            df = pd.read_excel(uploaded_file, sheet_name='HP Questionnaire_eng', header=None)
+            st.write("Data from the Excel file:")
+            # Filter the relevant rows (6 to 19) and the relevant columns (Symbol and Value)
+            filtered_df = df.iloc[6:21, [3, 5, 6]]  # 6:20 selects rows, [3, 5, 6] selects "Symbol", "Value", and "Unit" columns
 
-        # Rename the columns for better display
-        filtered_df.columns = ["Symbol", "Value", "Unit"]
+            # Rename the columns for better display
+            filtered_df.columns = ["Symbol", "Value", "Unit"]
 
-        # Display the filtered DataFrame in Streamlit
-        st.write("Technical Parameters:")
-        st.dataframe(filtered_df)
-        #st.write(df.head(20))  # Display the first 20 rows for inspection
+            # Display the filtered DataFrame in Streamlit
+            st.write("Technical Parameters:")
+            st.dataframe(filtered_df)
+            #st.write(df.head(20))  # Display the first 20 rows for inspection
 
-        # Extract the relevant inputs from the Excel sheet (adjust the cell locations as needed)
-        try:
+            # Extract the relevant inputs from the Excel sheet (adjust the cell locations as needed)
+            
             # Extract sink parameters
             sink_inlet_temp = pd.to_numeric(df.iloc[6, 5], errors='coerce') if not pd.isna(df.iloc[6, 5]) else constants.default_values['sink_inlet_temp']
             sink_outlet_temp = pd.to_numeric(df.iloc[7, 5], errors='coerce') if not pd.isna(df.iloc[7, 5]) else constants.default_values['sink_outlet_temp']
@@ -160,25 +162,24 @@ if st.session_state['otp_verified']:
             q_source = float(q_source) if not pd.isna(q_source) else constants.default_values['q_source']
             m_source = float(m_source) if not pd.isna(m_source) else constants.default_values['m_source']
 
-            raise ValueError("Worksheet named 'HP Questionnaire_eng' not found")
 
-        except ValueError as e:
-            if "Worksheet named 'HP Questionnaire_eng' not found" in str(e):
-                st.error("Error: Worksheet named 'HP Questionnaire_eng' not found.")
-            else:
-                st.error(f"An unexpected error occurred: {e}")
-            
-        except Exception as e:
-            st.error(f"Error reading the Excel file: {e}")
-            sink_inlet_temp = constants.default_values['sink_inlet_temp']
-            sink_outlet_temp = constants.default_values['sink_outlet_temp']
-            sink_outlet_pressure = constants.default_values['sink_outlet_pressure']
-            q_sink = constants.default_values['q_sink']
-            m_sink = constants.default_values['m_sink']
-            source_inlet_temp = constants.default_values['source_inlet_temp']
-            source_outlet_temp = constants.default_values['source_outlet_temp']
-            q_source = constants.default_values['q_source']
-            m_source = constants.default_values['m_source']
+    except ValueError as e:
+        if "Worksheet named 'HP Questionnaire_eng' not found" in str(e):
+            st.error("Error: Worksheet named 'HP Questionnaire_eng' not found.")
+        else:
+            st.error(f"An unexpected error occurred: {e}")
+        
+    except Exception as e:
+        st.error(f"Error reading the Excel file: {e}")
+        sink_inlet_temp = constants.default_values['sink_inlet_temp']
+        sink_outlet_temp = constants.default_values['sink_outlet_temp']
+        sink_outlet_pressure = constants.default_values['sink_outlet_pressure']
+        q_sink = constants.default_values['q_sink']
+        m_sink = constants.default_values['m_sink']
+        source_inlet_temp = constants.default_values['source_inlet_temp']
+        source_outlet_temp = constants.default_values['source_outlet_temp']
+        q_source = constants.default_values['q_source']
+        m_source = constants.default_values['m_source']
     else:
         # Use default values if no file is uploaded
         sink_inlet_temp = constants.default_values['sink_inlet_temp']
