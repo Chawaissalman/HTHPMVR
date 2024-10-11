@@ -526,7 +526,7 @@ if st.session_state['otp_verified']:
                     return output_enthalpy_mvr - heat_sink
 
                 if mass_sink > 0:
-                    heat_sink = calculate_heat_sink(mass_sink, Sink_T_inlet, Sink_P_inlet, 112.3, 1.4)
+                    heat_sink = calculate_heat_sink(mass_sink, Sink_T_inlet, Sink_P_inlet, Sink_T_outlet, Sink_P_outlet)
                 #st.info(f"Heat Sink: {heat_sink:.6f} MW")
                     
                 # Use fsolve to find the heat_sink_hthp value that minimizes the enthalpy difference
