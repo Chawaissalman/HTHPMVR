@@ -353,7 +353,7 @@ if st.session_state['otp_verified']:
             #st.info(f"Validated mass_flow_source: {validated_mass_flow:.3f} kg/s")
             st.info("Inputs are validated, calculations will follow")
 
-            if Sink_P_outlet <= 3.7:
+            if Sink_P_outlet <= 5.0:
                 results = calculate_heat_pump_performance_source(
                     fluid='R1233ZD', 
                     source_inlet_temp=source_inlet_temp, 
@@ -372,7 +372,7 @@ if st.session_state['otp_verified']:
                     Sink_T_outlet=Sink_T_outlet, 
                     Sink_P_outlet=Sink_P_outlet
                 )
-            elif Sink_P_outlet > 3.7:
+            elif Sink_P_outlet > 5.0:
                 Tsat_sink_out = CP.PropsSI('T', 'P', Sink_P_outlet * 1e5*1.02, 'Q', 1, 'Water') - 273.15
                 if Sink_T_outlet < Tsat_sink_out:
                     st.error(f"Warning: Sink_T_outlet ({Sink_T_outlet}°C) is lower than the saturation temperature ({Tsat_sink_out:.2f}°C) at Sink_P_outlet ({Sink_P_outlet} bar).")
